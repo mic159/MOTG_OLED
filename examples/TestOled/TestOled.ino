@@ -1,3 +1,4 @@
+#include <SPI.h>
 #include <MOTG_OLED.h>
 
 // Screen with CS on pin 10
