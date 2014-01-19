@@ -1,5 +1,5 @@
 #######################################
-# Syntax Coloring Map For 4D_MOTG_OLED
+# Syntax Coloring Map For MOTG_OLED
 #######################################
 
 #######################################
@@ -12,17 +12,14 @@ Screen	 KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-begin	 KEYWORD2
-interval	 KEYWORD2
-read	 KEYWORD2
-write	 KEYWORD2
-rebounce	 KEYWORD2
-risingEdge	KEYWORD2
-fallingEdge	KEYWORD2
-
-#######################################
-# Instances (KEYWORD2)
-#######################################
+begin			KEYWORD2
+debugVersion	KEYWORD2
+clearScreen		KEYWORD2
+circle			KEYWORD2
+polygon			KEYWORD2
+penType			KEYWORD2
+rectangle		KEYWORD2
+setPixel		KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
