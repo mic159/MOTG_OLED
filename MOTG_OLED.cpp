@@ -146,6 +146,15 @@ void MotgOled::penType(uint8_t type) {
   digitalWrite(cs,HIGH);
 }
 
+void MotgOled::backgroundColor(uint16_t color) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x4B);
+  SPI.transfer(color >> 8);
+  SPI.transfer(color);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
 void MotgOled::rectangle(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint16_t color) {
   digitalWrite(cs,LOW);
   SPI.transfer(0x72);
@@ -166,6 +175,74 @@ void MotgOled::setPixel(uint8_t x, uint8_t y, uint16_t color) {
   SPI.transfer(y);
   SPI.transfer(color >> 8);
   SPI.transfer(color);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint16_t color) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x4C);
+  SPI.transfer(x1);
+  SPI.transfer(y1);
+  SPI.transfer(x2);
+  SPI.transfer(y2);
+  SPI.transfer(color >> 8);
+  SPI.transfer(color);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::triangle(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t x3, uint8_t y3, uint16_t color) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x47);
+  SPI.transfer(x1);
+  SPI.transfer(y1);
+  SPI.transfer(x2);
+  SPI.transfer(y2);
+  SPI.transfer(x3);
+  SPI.transfer(y3);
+  SPI.transfer(color >> 8);
+  SPI.transfer(color);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::addUserBitmap(uint8_t num, uint8_t x1, uint8_t x2, uint8_t x3, uint8_t x4, uint8_t x5, uint8_t x6, uint8_t x7, uint8_t x8) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x41);
+  SPI.transfer(num);
+  SPI.transfer(x1);
+  SPI.transfer(x2);
+  SPI.transfer(x3);
+  SPI.transfer(x4);
+  SPI.transfer(x5);
+  SPI.transfer(x6);
+  SPI.transfer(x7);
+  SPI.transfer(x8);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::drawUserBitmap(uint8_t num, uint8_t x, uint8_t y, uint16_t color) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x44);
+  SPI.transfer(num);
+  SPI.transfer(x);
+  SPI.transfer(y);
+  SPI.transfer(color >> 8);
+  SPI.transfer(color);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::imageBegin(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint16_t colorMode) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x49);
+  SPI.transfer(x);
+  SPI.transfer(y);
+  SPI.transfer(width);
+  SPI.transfer(height);
+  SPI.transfer(colorMode);
   getAck();
   digitalWrite(cs,HIGH);
 }
