@@ -6,15 +6,20 @@
 class MotgOled {
 public:
   MotgOled(int cs);
-  void begin();
+  void begin(bool getResolution = true);
   
-  void debugVersion(bool onScreen = true);
   void clearScreen();
   void circle(uint8_t x, uint8_t y, uint8_t radius, uint16_t color);
   void polygon(uint16_t color, uint8_t num, ... );
   void penType(uint8_t type);
   void rectangle(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint16_t color);
   void setPixel(uint8_t x, uint8_t y, uint16_t color);
+  
+  void readDeviceInfo(bool onScreen = true, bool serialEcho = false);
+
+  // Resolution of the screen.
+  // Initialized when you call begin(), or readDeviceInfo().
+  int width, height;
 private:
   int cs;
   uint8_t buff[6];

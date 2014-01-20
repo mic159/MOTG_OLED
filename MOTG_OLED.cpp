@@ -1,12 +1,27 @@
 #include <SPI.h>
 #include <Arduino.h>
+#include <avr/pgmspace.h>
 #include "MOTG_OLED.h"
+
+// The width and height of the display is sent in a short code format
+// This table lets us translate that short code into pixel sizes.
+PROGMEM prog_uint16_t sizeLookupKey[]   = {0x22, 0x28, 0x32, 0x60, 0x64, 0x76, 0x96};
+PROGMEM prog_uint16_t sizeLookupValue[] = { 220,  128,  320,  160,   64,  176,   96};
+
+uint16_t translateToSize(uint8_t data) {
+  for (int i = 0; i < 7; ++i)
+      if (pgm_read_word_near(sizeLookupKey + i) == data)
+        return pgm_read_word_near(sizeLookupValue + i);
+  return 0;
+}
 
 MotgOled::MotgOled(int _cs)
 : cs(_cs)
+, width(0)
+, height(0)
 {}
 
-void MotgOled::begin() {
+void MotgOled::begin(bool getResolution) {
   pinMode (cs, OUTPUT);
   digitalWrite(cs,HIGH);
   SPI.begin();
@@ -14,6 +29,9 @@ void MotgOled::begin() {
   SPI.setDataMode(SPI_MODE0);
   // On a 16MHz Arduino, setting this lower seems to cause longer commands to fail.
   SPI.setClockDivider(SPI_CLOCK_DIV16);
+  
+  if (getResolution)
+    readDeviceInfo(false, false);
 }
 
 bool MotgOled::read(int expected) {
@@ -51,30 +69,36 @@ void MotgOled::getAck() {
   }
 }
 
-void MotgOled::debugVersion(bool onScreen) {
-  Serial.println("**************\n Version Info\n**************");
+void MotgOled::readDeviceInfo(bool onScreen, bool serialEcho) {
   digitalWrite(cs,LOW);
   SPI.transfer(0x56);
   if (onScreen)
     SPI.transfer(0x01);
   else
     SPI.transfer(0x00);
-  read(5);
-  if (buff[0] == 0x15) {
+  
+  if (read(5) != 0) {
+    Serial.println("Error: Timeout");
+  } else if (buff[0] == 0x15) {
     Serial.println("Error: Returned NAK (bad command)");
   } else {
-    Serial.print("Type: ");
-    Serial.println(buff[0], HEX);
-    Serial.print("Hardware Revision: ");
-    Serial.println(buff[1], HEX);
-    Serial.print("Software Revision: ");
-    Serial.println(buff[2], HEX);
-    Serial.print("Resolution: ");
-    Serial.print(0xFF & buff[3], HEX);
-    Serial.print("x");
-    Serial.println(0xFF & buff[4], HEX);
+    width = translateToSize(buff[3]);
+    height = translateToSize(buff[4]);
+    if (serialEcho) {
+		  Serial.println("**************\n Version Info\n**************");
+		  Serial.print("Type: ");
+		  Serial.println(buff[0], HEX);
+		  Serial.print("Hardware Revision: ");
+		  Serial.println(buff[1], HEX);
+		  Serial.print("Software Revision: ");
+		  Serial.println(buff[2], HEX);
+		  Serial.print("Resolution: ");
+		  Serial.print(width);
+		  Serial.print("x");
+		  Serial.println(height);
+  		Serial.println("****");
+    }
   }
-  Serial.println("****");
   digitalWrite(cs,HIGH);
 }
 
