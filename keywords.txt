@@ -6,20 +6,34 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-Screen	 KEYWORD1
+MotgOled	 KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-begin			KEYWORD2
-debugVersion	KEYWORD2
-clearScreen		KEYWORD2
-circle			KEYWORD2
-polygon			KEYWORD2
-penType			KEYWORD2
-rectangle		KEYWORD2
-setPixel		KEYWORD2
+begin	 KEYWORD2
+readDeviceInfo	 KEYWORD2
+clear	 KEYWORD2
+circle	 KEYWORD2
+polygon	 KEYWORD2
+penType	 KEYWORD2
+rectangle	 KEYWORD2
+setPixel	 KEYWORD2
+penType	 KEYWORD2
+backgroundColor	 KEYWORD2
+line	 KEYWORD2
+triangle	 KEYWORD2
+addUserBitmap	 KEYWORD2
+drawUserBitmap	 KEYWORD2
+imageBegin	 KEYWORD2
+imageData	 KEYWORD2
+imageDataProgmem	 KEYWORD2
+opaqueText	 KEYWORD2
+font	 KEYWORD2
+string	 KEYWORD2
+width	 KEYWORD2
+height	 KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
