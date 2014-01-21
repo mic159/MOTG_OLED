@@ -183,7 +183,7 @@ void loop() {
   delay(1000);
   screen.readDeviceInfo(true);
   delay(1000);
-  screen.clearScreen();
+  screen.clear();
   delay(100);
   screen.penType(0);
   screen.circle(screen.width / 2, screen.height / 2, 8, 0x001F /*BLUE*/);

@@ -102,7 +102,7 @@ void MotgOled::readDeviceInfo(bool onScreen, bool serialEcho) {
   digitalWrite(cs,HIGH);
 }
 
-void MotgOled::clearScreen() {
+void MotgOled::clear() {
   digitalWrite(cs,LOW);
   SPI.transfer(0x45);
   getAck();

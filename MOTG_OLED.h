@@ -9,7 +9,7 @@ public:
   void begin(bool getResolution = true);
   
   // Clear the screen. Reset all pixels to the background color.
-  void clearScreen();
+  void clear();
   
   /*
    * Set the Pen type for shape drawing.
