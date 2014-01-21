@@ -35,6 +35,10 @@ public:
   void addUserBitmap(uint8_t num, uint8_t x1, uint8_t x2, uint8_t x3, uint8_t x4, uint8_t x5, uint8_t x6, uint8_t x7, uint8_t x8);
   void drawUserBitmap(uint8_t num, uint8_t x, uint8_t y, uint16_t color);
   
+  void imageBegin(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint16_t colorMode);
+  void imageData(uint8_t blockSize, const uint8_t* data);
+  void imageDataProgmem(uint8_t blockSize, const prog_uchar* data);
+  
   void readDeviceInfo(bool onScreen = true, bool serialEcho = false);
 
   // Resolution of the screen.

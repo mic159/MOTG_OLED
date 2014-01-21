@@ -247,3 +247,23 @@ void MotgOled::imageBegin(uint8_t x, uint8_t y, uint8_t width, uint8_t height, u
   digitalWrite(cs,HIGH);
 }
 
+void MotgOled::imageData(uint8_t blockSize, const uint8_t* data) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(blockSize);
+  for (int i = 0; i < blockSize; i++) {
+    SPI.transfer(data[i]);
+  }
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::imageDataProgmem(uint8_t blockSize, const prog_uchar* data) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(blockSize);
+  for (int i = 0; i < blockSize; i++) {
+    SPI.transfer(pgm_read_byte_near(data + i));
+  }
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
