@@ -267,3 +267,53 @@ void MotgOled::imageDataProgmem(uint8_t blockSize, const prog_uchar* data) {
   digitalWrite(cs,HIGH);
 }
 
+void MotgOled::string(uint8_t col, uint8_t row, Font font, uint16_t color, char * str) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x73);
+  SPI.transfer(col);
+  SPI.transfer(row);
+  SPI.transfer((uint8_t)font);
+  SPI.transfer(color >> 8);
+  SPI.transfer(color);
+  for(char* c = str; *c != '\0'; ++c) {
+    SPI.transfer(*c);
+  }
+  SPI.transfer(0);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::string(uint8_t x, uint8_t y, Font font, uint16_t color, uint8_t width, uint8_t height, char * str) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x53);
+  SPI.transfer(x);
+  SPI.transfer(y);
+  SPI.transfer((uint8_t)font);
+  SPI.transfer(color >> 8);
+  SPI.transfer(color);
+  SPI.transfer(width);
+  SPI.transfer(height);
+  for(char* c = str; *c != '\0'; ++c) {
+    SPI.transfer(*c);
+  }
+  SPI.transfer(0);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::opaqueText(bool state) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x4F);
+  SPI.transfer(state ? 0x01 : 0x00);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+
+void MotgOled::font(Font font) {
+  digitalWrite(cs,LOW);
+  SPI.transfer(0x46);
+  SPI.transfer((uint8_t)font);
+  getAck();
+  digitalWrite(cs,HIGH);
+}
+

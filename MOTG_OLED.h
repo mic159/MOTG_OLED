@@ -3,6 +3,21 @@
 
 #include <Arduino.h>
 
+/**
+  * Convert an R G and B value into a 2 byte color value to
+  * pass into the functions.
+  */
+#define RGB(r,g,b) ((r&0x0ff) << 16) | ((g&0x0ff) << 8) | (b&0x0ff)
+
+enum Font {
+  SMALL = 0x00,
+  MEDIUM = 0x01,
+  LARGE = 0x02,
+  SMALL_PROPORTIONAL = 0x10,
+  MEDIUM_PROPORTIONAL = 0x11,
+  LARGE_PROPORTIONAL = 0x12,
+};
+
 class MotgOled {
 public:
   MotgOled(int cs);
@@ -21,7 +36,8 @@ public:
   void penType(uint8_t type);
   /*
    * Set the baground color.
-   * This is used when you clearScreen().
+   * This is used when you clearScreen()
+   * and for the background on opaque text.
    */
   void backgroundColor(uint16_t color);
   
@@ -38,6 +54,18 @@ public:
   void imageBegin(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint16_t colorMode);
   void imageData(uint8_t blockSize, const uint8_t* data);
   void imageDataProgmem(uint8_t blockSize, const prog_uchar* data);
+  
+  
+  /**
+    * Enable/Disable Opaque mode text.
+    *
+    * When enabled, it draws the background color around the text.
+    * When disabled, the text drawn ontop of what was there before.
+    */
+  void opaqueText(bool);
+  void font(Font font);
+  void string(uint8_t col, uint8_t row, Font font, uint16_t color, char * str);
+  void string(uint8_t x, uint8_t y, Font font, uint16_t color, uint8_t width, uint8_t height, char * str);
   
   void readDeviceInfo(bool onScreen = true, bool serialEcho = false);
 

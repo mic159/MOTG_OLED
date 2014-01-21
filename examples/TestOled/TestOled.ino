@@ -229,4 +229,11 @@ void loop() {
   screen.imageDataProgmem(160, p11);
   screen.imageDataProgmem(160, p12);
   screen.imageDataProgmem(128, p13);
+  delay(100);
+  screen.string(0,6,SMALL, 0x001F /*BLUE*/ ,"A String");
+  
+  screen.font(SMALL);
+  screen.opaqueText(false);
+  screen.string(0,0,SMALL,0xF800 /*RED*/,1,2,"Graphic String");
+  screen.string(2,2,LARGE,0x867F /*LIGHTSKYBLUE*/,"String");
 }
